@@ -12,15 +12,20 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { isLoading, showAlert } = useAppContext()
+  const { isLoading, showAlert, displayAlert } = useAppContext();
 
   const handleChange = (e) => {
-    setValues({...values, [e.target.name]: e.target.value})
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const { name, email, password, isMember } = values;
+    if(!email || !password || (!isMember && !name)) {
+      displayAlert()
+      return
+    }
+    console.log(values);
   };
 
   const toggleMember = () => {
@@ -60,9 +65,10 @@ const Register = () => {
           Submit
         </button>
         {/* Login/Register toggle btn */}
+
         <p>
           {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-          <button className='member-btn' onClick={toggleMember}>
+          <button type = 'button' className='member-btn' onClick={toggleMember}>
             {values.isMember ? 'Register' : 'Login'}
           </button>
         </p>
