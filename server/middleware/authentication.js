@@ -1,6 +1,5 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const { UnauthenticatedError } = require('../errors');
+import jwt from 'jsonwebtoken';
+import { UnauthenticatedError } from '../errors/index.js';
 
 const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -18,4 +17,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+export default auth;
