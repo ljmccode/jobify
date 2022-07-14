@@ -1,6 +1,6 @@
-const Job = require('../models/Job');
-const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, NotFoundError } = require('../errors');
+import Job from '../models/Job.js';
+import { StatusCodes } from 'http-status-codes';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId }).sort('createdAt');
@@ -58,16 +58,15 @@ const deleteJob = async (req, res) => {
 
   const job = await Job.findByIdAndRemove({
     _id: jobId,
-    createdBy: userId
-  })
+    createdBy: userId,
+  });
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`);
   }
   res.status(StatusCodes.OK).send();
-  
 };
 
-module.exports = {
+export {
   getAllJobs,
   getJob,
   createJob,

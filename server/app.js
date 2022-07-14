@@ -1,31 +1,27 @@
-require('dotenv').config();
-require('express-async-errors');
+import dotenv from 'dotenv'
+dotenv.config();
+import 'express-async-errors';
 
 // extra security packages
-const helmet = require('helmet');
-const cors = require('cors');
-const xxs = require('xss-clean');
-const rateLimiter = require('express-rate-limit');
+import helmet from'helmet';
+import cors from 'cors';
+import xxs from 'xss-clean';
+import rateLimiter from 'express-rate-limit';
 
-// Swagger
-const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./swagger.yaml');
-
-const express = require('express');
+import express from 'express';
 const app = express();
 
 // connectDB
-const connectDB = require('./db/connect');
-const authenticateUser = require('./middleware/authentication');
+import connectDB from './db/connect.js';
+import authenticateUser from './middleware/authentication.js';
 
 // routers
-const authRouter = require('./routes/auth');
-const jobsRouter = require('./routes/jobs');
+import authRouter from './routes/auth.js';
+import jobsRouter from './routes/jobs.js';
 
 // error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+import notFoundMiddleware from './middleware/not-found.js';
+import errorHandlerMiddleware from './middleware/error-handler.js';
 
 app.set('trust proxy', 1);
 app.use(
@@ -42,7 +38,6 @@ app.use(xxs());
 app.get('/', (req, res) => {
   res.send('<h1>jobs API</h1><a href="/api-docs">Documentation</a>');
 });
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // routes
 app.use('/api/v1/auth', authRouter);
