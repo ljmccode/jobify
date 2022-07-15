@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
+  
   if (!email || !password) {
     throw new BadRequestError('Please provide email and password');
   }
@@ -41,9 +41,7 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new UnauthenticatedError('Invalid Credentials');
   }
-
   const token = user.createJWT();
-  user.password = undefined;
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
