@@ -34,8 +34,8 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      token: token,
-      user: user,
+      token,
+      user,
       userlocation: location,
       jobLocation: jobLocation,
       showAlert: true,
