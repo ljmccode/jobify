@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import isEmail from 'validator/lib/isEmail';
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -15,10 +16,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide email'],
     minlength: 3,
     maxlength: 50,
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      'Please provide a valid email',
-    ],
+    validate:{
+      validator: isEmail,
+      message: 'Please provide a valid email'
+    },
     unique: true,
   },
   password: {
