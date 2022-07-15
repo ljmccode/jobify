@@ -4,7 +4,7 @@ import 'express-async-errors';
 
 // extra security packages
 import helmet from'helmet';
-import cors from 'cors';
+// import cors from 'cors';
 import xxs from 'xss-clean';
 import rateLimiter from 'express-rate-limit';
 
@@ -32,7 +32,7 @@ app.use(
 );
 app.use(express.json());
 app.use(helmet());
-app.use(cors());
+// app.use(cors());
 app.use(xxs());
 
 app.get('/', (req, res) => {
