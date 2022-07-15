@@ -12,7 +12,7 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { isLoading, showAlert, displayAlert } = useAppContext();
+  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -21,9 +21,15 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, isMember } = values;
-    if(!email || !password || (!isMember && !name)) {
-      displayAlert()
-      return
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert();
+      return;
+    }
+    const currentUser = { name, email, password };
+    if (isMember) {
+      console.log('already a member');
+    } else {
+      registerUser(currentUser);
     }
     console.log(values);
   };
@@ -61,14 +67,14 @@ const Register = () => {
           value={values.password}
           handleChange={handleChange}
         />
-        <button type='submit' className='btn btn-block'>
+        <button type='submit' className='btn btn-block' disabled={isLoading}>
           Submit
         </button>
         {/* Login/Register toggle btn */}
 
         <p>
           {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-          <button type = 'button' className='member-btn' onClick={toggleMember}>
+          <button type='button' className='member-btn' onClick={toggleMember}>
             {values.isMember ? 'Register' : 'Login'}
           </button>
         </p>
