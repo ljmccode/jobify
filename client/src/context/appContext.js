@@ -10,6 +10,7 @@ import {
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
+  LOGOUT_USER,
 } from './actions.js';
 
 const token = localStorage.getItem('token');
@@ -50,11 +51,12 @@ const AppProvider = ({ children }) => {
     localStorage.setItem('location', location);
   };
 
-  // const removeUserFromLocalStorage = ({ user, token, location }) => {
-  //   localStorage.removeItem('user', user);
-  //   localStorage.removeItem('token', token);
-  //   localStorage.removeItem('location', location);
-  // };
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('location');
+    console.log('removed');
+  };
 
   const setupUser = async ({currentUser, endpoint, alertText}) => {
     dispatch({ type: SETUP_USER_BEGIN });
@@ -79,9 +81,14 @@ const AppProvider = ({ children }) => {
     dispatch({ type: TOGGLE_SIDEBAR })
   }
 
+  const logoutUser = () => {
+    dispatch({type: LOGOUT_USER})
+    removeUserFromLocalStorage()
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, setupUser, toggleSidebar }}
+      value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser }}
     >
       {children}
     </AppContext.Provider>
