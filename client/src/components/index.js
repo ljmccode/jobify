@@ -4,5 +4,6 @@ import Alert from './Alert';
 import BigSidebar from './BigSidebar';
 import Navbar from './Navbar';
 import SmallSidebar from './SmallSidebar';
+import NavLinks from './NavLinks';
 
-export { Logo, FormRow, Alert, BigSidebar, Navbar, SmallSidebar };
+export { Logo, FormRow, Alert, BigSidebar, Navbar, SmallSidebar, NavLinks };
