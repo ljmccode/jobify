@@ -1,16 +1,24 @@
 import styled from 'styled-components';
 import { useAppContext } from '../context/appContext';
+import { Logo, NavLinks } from '../components';
+import { FaTimes } from 'react-icons/fa'
 
 const SmallSidebar = () => {
-  const { showSidebar } = useAppContext();
+  const { showSidebar, toggleSidebar } = useAppContext();
   return (
     <Wrapper>
       <div
         className={
           showSidebar ? 'sidebar-container show-sidebar' : 'sidebar-container'
         }
-      >Small Device Sidebar
-        <div className='content'>Content</div>
+      >
+        <div className='content'>
+          <button type='button' className='close-btn' onClick={toggleSidebar}><FaTimes /></button>
+          <header>
+          <Logo />
+          </header>
+          <NavLinks />
+        </div>
       </div>
     </Wrapper>
   );
@@ -50,5 +58,55 @@ const Wrapper = styled.aside`
     display: flex;
     align-items: center;
     flex-direction: column;
+  }
+
+  .close-btn {
+    color: var(--red-dark);
+    border: none;
+    background: transparent;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    left: 12px;  
+  }
+
+  .nav-links {
+    display:flex;
+    flex-direction: column;
+    padding-top: 2rem;
+  }
+
+  .nav-link {
+    color: var(--grey-500);
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    padding: 1.3rem 0;
+    transition: var(--transition);
+  }
+
+  .icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    display: grid;
+    place-items: center;
+    transition: var(--transition);
+  }
+
+  .nav-link:hover {
+    color: var(--grey-900);
+  }
+
+  .nav-link:hover .icon {
+    color: var(--primary-500);
+  }
+
+  .active {
+    color: var(--grey-900);
+  }
+
+  .active .icon{
+    color: var(--primary-500);
   }
 `;
