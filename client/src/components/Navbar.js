@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false);
-  const { user, toggleSidebar } = useAppContext();
+  const { user, toggleSidebar, logoutUser } = useAppContext();
 
   return (
     <Wrapper>
@@ -25,13 +25,10 @@ const Navbar = () => {
             className='btn'
             onClick={() => setShowLogout(!showLogout)}
           >
-            <FaUserCircle /> {user.name} <FaCaretDown />
+            <FaUserCircle /> {user?.name} <FaCaretDown />
           </button>
           <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
-            <button
-              type='button'
-              className='dropdown-btn'
-            >
+            <button type='button' className='dropdown-btn' onClick={logoutUser}>
               logout
             </button>
           </div>
@@ -119,6 +116,10 @@ const Wrapper = styled.nav`
   @media screen and (min-width: 992px) {
     position: sticky;
     top: 0;
+
+    .nav-center {
+      width: 90%;
+    }
 
     .logo {
       display: none;
