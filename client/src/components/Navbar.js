@@ -5,12 +5,12 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
 
 const Navbar = () => {
-  const { user } = useAppContext();
+  const { user, toggleSidebar } = useAppContext();
 
   return (
     <Wrapper>
       <div className='nav-center'>
-        <button type='button' className='toggle-btn'>
+        <button type='button' className='toggle-btn' onClick={toggleSidebar}>
           <GiHamburgerMenu />
         </button>
         <div>
@@ -18,7 +18,9 @@ const Navbar = () => {
           <h3 className='logo-text'>dashboard</h3>
         </div>
         <div className='btn-container'>
-          <button type='button' className='btn'>
+          <button type='button' className='btn' onClick={()=> {
+          console.log('dropdown')
+        }}>
             <FaUserCircle /> {user.name} <FaCaretDown />
           </button>
           <div className='dropdown'>
