@@ -60,7 +60,7 @@ const updateUser = async (req, res) => {
 
   user.email = email
   user.name = name
-  user.lastNmae = lastName
+  user.lastName = lastName
   user.location = location
 
   await user.save()

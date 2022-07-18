@@ -5,7 +5,10 @@ import {
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
-  LOGOUT_USER
+  LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from './actions';
 
 import { initialState } from './appContext';
@@ -30,11 +33,11 @@ const reducer = (state, action) => {
   if (action.type === SETUP_USER_BEGIN) {
     return {
       ...state,
-      isLoading: true
+      isLoading: true,
     };
   }
   if (action.type === SETUP_USER_SUCCESS) {
-    const {token, user, location, jobLocation, alertText } = action.payload
+    const { token, user, location, jobLocation, alertText } = action.payload;
     return {
       ...state,
       isLoading: false,
@@ -59,7 +62,7 @@ const reducer = (state, action) => {
   if (action.type === TOGGLE_SIDEBAR) {
     return {
       ...state,
-      showSidebar: !state.showSidebar
+      showSidebar: !state.showSidebar,
     };
   }
   if (action.type === LOGOUT_USER) {
@@ -69,6 +72,35 @@ const reducer = (state, action) => {
       token: null,
       jobLocation: '',
       userLocation: '',
+    };
+  }
+  if (action.type === UPDATE_USER_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === UPDATE_USER_SUCCESS) {
+    const { user, location, token } = action.payload;
+    return {
+      ...state,
+      isLoading: false,
+      user: user,
+      token,
+      userLocation: location,
+      jobLocation: location,
+      showAlert: true,
+      alertType: 'success',
+      alertText: 'User Profile Updated!',
+    };
+  }
+  if (action.type === UPDATE_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg,
     };
   }
   throw new Error(`no such action: ${action.type}`);
