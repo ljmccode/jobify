@@ -34,6 +34,33 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const authFetch = axios.create({
+    baseURL: 'api/v1',
+  });
+
+  authFetch.interceptors.request.use(
+    (config) => {
+      config.headers.common['Authorization'] = `Bearer ${state.token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  authFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      console.log(error.response);
+      if(error.response.status === 401) {
+        console.log('AUTH ERROR');
+      }
+      return Promise.reject(error);
+    }
+  );
+
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
     clearAlert();
@@ -58,10 +85,13 @@ const AppProvider = ({ children }) => {
     console.log('removed');
   };
 
-  const setupUser = async ({currentUser, endpoint, alertText}) => {
+  const setupUser = async ({ currentUser, endpoint, alertText }) => {
     dispatch({ type: SETUP_USER_BEGIN });
     try {
-      const { data } = await axios.post(`/api/v1/auth/${endpoint}`, currentUser);
+      const { data } = await axios.post(
+        `/api/v1/auth/${endpoint}`,
+        currentUser
+      );
       const { user, token, location } = data;
       dispatch({
         type: SETUP_USER_SUCCESS,
@@ -78,17 +108,33 @@ const AppProvider = ({ children }) => {
   };
 
   const toggleSidebar = () => {
-    dispatch({ type: TOGGLE_SIDEBAR })
-  }
+    dispatch({ type: TOGGLE_SIDEBAR });
+  };
 
   const logoutUser = () => {
-    dispatch({type: LOGOUT_USER})
-    removeUserFromLocalStorage()
-  }
+    dispatch({ type: LOGOUT_USER });
+    removeUserFromLocalStorage();
+  };
+
+  const updateUser = async (currentUser) => {
+    try {
+      const { data } = await authFetch.patch('/auth/updateuser', currentUser);
+      console.log(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser }}
+      value={{
+        ...state,
+        displayAlert,
+        setupUser,
+        toggleSidebar,
+        logoutUser,
+        updateUser,
+      }}
     >
       {children}
     </AppContext.Provider>
