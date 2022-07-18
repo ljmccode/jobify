@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import isEmail from 'validator/lib/isEmail.js';
+import { REQUESTED_RANGE_NOT_SATISFIABLE } from 'http-status-codes';
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -16,9 +17,9 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide email'],
     minlength: 3,
     maxlength: 50,
-    validate:{
+    validate: {
       validator: isEmail,
-      message: 'Please provide a valid email'
+      message: 'Please provide a valid email',
     },
     unique: true,
   },
@@ -26,22 +27,24 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide name'],
     minlength: 6,
+    select: false,
   },
   lastName: {
     type: String,
     trim: true,
     maxlength: 20,
-    default: 'last name'
+    default: 'last name',
   },
   location: {
     type: String,
     trim: true,
     maxlength: 20,
-    default: 'my city'
+    default: 'my city',
   },
 });
 
 UserSchema.pre('save', async function () {
+  if (!this.isModified('password')) return
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
