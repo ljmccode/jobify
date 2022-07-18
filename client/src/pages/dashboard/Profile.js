@@ -14,7 +14,11 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('update user');
+    if (!name || !lastName || !email || !location) {
+      displayAlert();
+      return;
+    }
+    updateUser({ name, lastName, email, location });
   };
 
   return (
@@ -31,7 +35,7 @@ const Profile = () => {
           />
           <FormRow
             type='text'
-            labelText= 'last name'
+            labelText='last name'
             name='last name'
             value={lastName}
             handleChange={(e) => setLastName(e.target.value)}
@@ -48,7 +52,9 @@ const Profile = () => {
             value={location}
             handleChange={(e) => setLocation(e.target.value)}
           />
-          <button className='btn btn-block' type='sumbit' disabled={isLoading}>{isLoading ? 'Please Wait' : 'Save Changes'}</button>
+          <button className='btn btn-block' type='sumbit' disabled={isLoading}>
+            {isLoading ? 'Please Wait' : 'Save Changes'}
+          </button>
         </div>
       </form>
     </Wrapper>
