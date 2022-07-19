@@ -2,6 +2,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/appContext';
+import { JobInfo } from '../components';
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
 
 const Job = ({
@@ -28,18 +29,10 @@ const Job = ({
       </header>
       <div className='content'>
         <div className='content-center'>
-          <div>
-            <h5>{jobLocation}</h5>
-          </div>
-          <div>
-            <h5>{date}</h5>
-          </div>
-          <div>
-            <h5>{jobType}</h5>
-          </div>
-          <div>
-            <h5 className='pending'>{status}</h5>
-          </div>
+          <JobInfo icon={<FaLocationArrow />} text={jobLocation} />
+          <JobInfo icon={<FaCalendarAlt />} text={date} />
+          <JobInfo icon={<FaBriefcase />} text={jobType} />
+          <div className={`status ${status}`}>{status}</div>
         </div>
         <footer>
           <div className='actions'>
@@ -125,6 +118,15 @@ const Wrapper = styled.article`
     @media (min-width: 1120px) {
       grid-template-columns: 1fr 1fr;
     }
+  }
+
+  .status {
+    text-align: center;
+    text-transform: capitalize;
+    border-radius: var(--borderRadius);
+    width: 100px;
+    height: 30px;
+    letter-spacing: var(--letterSpacing);
   }
 
   .pending {
