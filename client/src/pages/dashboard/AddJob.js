@@ -1,7 +1,6 @@
 import Wrapper from './DashboardFormWrapper';
 import { useAppContext } from '../../context/appContext';
 import { FormRow, FormRowSelect, Alert } from '../../components';
-import { CLEAR_VALUES } from '../../context/actions';
 
 const AddJob = () => {
   const {
@@ -17,15 +16,20 @@ const AddJob = () => {
     statusOptions,
     handleChange,
     clearValues,
+    createJob,
+    editJob,
   } = useAppContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!position || !company || !jobLocation) {
-      displayAlert();
+    // if (!position || !company || !jobLocation) {
+    //   displayAlert();
+    //   return;
+    // }
+    if (editJob) {
       return;
     }
-    console.log('submitted');
+    createJob();
   };
 
   const handleJobInput = (e) => {
