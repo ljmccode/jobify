@@ -157,6 +157,17 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES });
   };
 
+  const createJob = async () => {
+    const { position, company, jobLocation, status, jobType } = state;
+    const { data } = await authFetch.post('/jobs', {
+      position,
+      company,
+      jobLocation,
+      status,
+      jobType,
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -168,6 +179,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         handleChange,
         clearValues,
+        createJob,
       }}
     >
       {children}
