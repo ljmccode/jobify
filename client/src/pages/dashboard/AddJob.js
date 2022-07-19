@@ -1,6 +1,6 @@
 import Wrapper from './DashboardFormWrapper';
 import { useAppContext } from '../../context/appContext';
-import { FormRow, Alert } from '../../components';
+import { FormRow, FormRowSelect, Alert } from '../../components';
 
 const AddJob = () => {
   const {
@@ -12,6 +12,8 @@ const AddJob = () => {
     jobLocation,
     status,
     jobType,
+    jobTypeOptions,
+    statusOptions,
   } = useAppContext();
 
   const handleSubmit = (e) => {
@@ -53,6 +55,19 @@ const AddJob = () => {
             labelText='job location'
             value={jobLocation}
             handleChange={handleJobInput}
+          />
+          <FormRowSelect
+            name='status'
+            value={status}
+            handleChange={handleJobInput}
+            options={statusOptions}
+          />
+          <FormRowSelect
+            name='jobType'
+            value={jobType}
+            labelText='Job Type'
+            handleChange={handleJobInput}
+            options={jobTypeOptions}
           />
           <div className='btn-container'>
             <button className='btn btn-block submit-btn' onClick={handleSubmit}>
