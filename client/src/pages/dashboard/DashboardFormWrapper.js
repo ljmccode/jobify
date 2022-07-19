@@ -19,7 +19,7 @@ const Wrapper = styled.section`
   .form-row {
     margin-bottom: 0;
   }
-
+  
   .form-center {
     display: grid;
     row-gap: 0.5rem;
@@ -29,6 +29,22 @@ const Wrapper = styled.section`
     align-self: end;
     height: 35px;
     margin-top: 1rem;
+  }
+
+  .btn-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .clear-btn {
+    background: var(--grey-500);
+  }
+
+  .clear-btn:hover {
+    background: var(--black);
   }
   
   @media screen and (min-width: 992px) {
