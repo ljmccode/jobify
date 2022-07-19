@@ -1,6 +1,7 @@
 import Wrapper from './DashboardFormWrapper';
 import { useAppContext } from '../../context/appContext';
 import { FormRow, FormRowSelect, Alert } from '../../components';
+import { CLEAR_VALUES } from '../../context/actions';
 
 const AddJob = () => {
   const {
@@ -15,6 +16,7 @@ const AddJob = () => {
     jobTypeOptions,
     statusOptions,
     handleChange,
+    clearValues,
   } = useAppContext();
 
   const handleSubmit = (e) => {
@@ -74,7 +76,15 @@ const AddJob = () => {
             <button className='btn btn-block submit-btn' onClick={handleSubmit}>
               submit
             </button>
-            <button className='btn btn-block clear-btn'>clear</button>
+            <button
+              className='btn btn-block clear-btn'
+              onClick={(e) => {
+                e.preventDefault();
+                clearValues();
+              }}
+            >
+              clear
+            </button>
           </div>
         </div>
       </form>
