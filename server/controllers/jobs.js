@@ -4,7 +4,9 @@ import { BadRequestError, NotFoundError } from '../errors/index.js';
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId }).sort('createdAt');
-  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
+  res
+    .status(StatusCodes.OK)
+    .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 };
 
 const getJob = async (req, res) => {
@@ -25,8 +27,8 @@ const getJob = async (req, res) => {
 const createJob = async (req, res) => {
   const { position, company } = req.body;
 
-  if (!position || !company ) {
-    throw new BadRequestError('Please Provide All Values!')
+  if (!position || !company) {
+    throw new BadRequestError('Please Provide All Values!');
   }
 
   req.body.createdBy = req.user.userId;
@@ -72,10 +74,4 @@ const deleteJob = async (req, res) => {
   res.status(StatusCodes.OK).send();
 };
 
-export {
-  getAllJobs,
-  getJob,
-  createJob,
-  updateJob,
-  deleteJob,
-};
+export { getAllJobs, getJob, createJob, updateJob, deleteJob };
