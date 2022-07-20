@@ -81,6 +81,13 @@ const showStats = async (req, res) => {
     { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
     { $group: { _id: '$status', count: { $sum: 1 } } },
   ]);
+
+  stats = stats.reduce((acc, curr) => {
+    const { _id, count } = curr;
+    acc[_id] = count;
+    return acc;
+  }, {});
+
   res.status(StatusCodes.OK).json({ stats });
 };
 
