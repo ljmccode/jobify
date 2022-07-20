@@ -21,4 +21,16 @@ const ChartsContainer = () => {
 
 export default ChartsContainer;
 
-const Wrapper = styled.section``;
+const Wrapper = styled.section`
+  margin-top: 3rem;
+  text-align: center;
+
+  button {
+    display: inline-block;
+    border: transparent;
+    background: transparent;
+    color: var(--primary-500);
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+`;
