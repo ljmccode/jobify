@@ -5,11 +5,21 @@ import Job from './Job';
 import styled from 'styled-components';
 
 const JobsContainer = () => {
-  const { getJobs, jobs, isLoading, page, totalJobs } = useAppContext();
+  const {
+    getJobs,
+    jobs,
+    isLoading,
+    page,
+    totalJobs,
+    search,
+    searchStatus,
+    searchType,
+    sort,
+  } = useAppContext();
 
   useEffect(() => {
     getJobs();
-  }, []);
+  }, [search, searchStatus, searchType, sort]);
 
   if (isLoading) {
     return <Loading center />;
@@ -17,7 +27,7 @@ const JobsContainer = () => {
   if (totalJobs === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>;
+        <h2>No jobs to display...</h2>
       </Wrapper>
     );
   }
@@ -39,7 +49,7 @@ const JobsContainer = () => {
 export default JobsContainer;
 
 const Wrapper = styled.section`
-margin-top: 4rem;
+  margin-top: 4rem;
   h2 {
     text-transform: none;
   }
@@ -47,12 +57,12 @@ margin-top: 4rem;
     font-weight: 700;
   }
 
-.jobs {
-  display: grid;
-  gap: 2rem;
-}
+  .jobs {
+    display: grid;
+    gap: 2rem;
+  }
 
-@media (min-width: 992px) {
+  @media (min-width: 992px) {
     .jobs {
       grid-template-columns: 1fr 1fr;
       gap: 1rem;

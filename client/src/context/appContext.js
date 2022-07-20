@@ -28,6 +28,7 @@ import {
   EDIT_JOB_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  CLEAR_FILTERS,
 } from './actions.js';
 
 const token = localStorage.getItem('token');
@@ -58,6 +59,11 @@ const initialState = {
   page: 1,
   stats: {},
   monthlyApplications: [],
+  search: '',
+  searchStatus: 'all',
+  searchType: 'all',
+  sort: 'latest',
+  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 };
 
 const AppContext = React.createContext();
@@ -203,7 +209,13 @@ const AppProvider = ({ children }) => {
   };
 
   const getJobs = async () => {
-    const url = '/jobs';
+    const { search, searchStatus, searchType, sort } = state;
+
+    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+
+    if (search) {
+      url = url + `&search=${search}`;
+    }
 
     dispatch({ type: GET_JOBS_BEGIN });
     try {
@@ -270,10 +282,13 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.log(error.response);
-      // logoutUser();
+      logoutUser();
     }
     clearAlert();
+  };
+
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
   };
 
   return (
@@ -293,6 +308,7 @@ const AppProvider = ({ children }) => {
         deleteJob,
         editJob,
         showStats,
+        clearFilters,
       }}
     >
       {children}
