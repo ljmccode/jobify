@@ -50,7 +50,7 @@ const updateJob = async (req, res) => {
     throw new NotFoundError(`No job with id :${jobId}`);
   }
 
-  checkPermissions(req.user, job.createdBy);
+  checkPermissions(req.user.userId, job.createdBy);
 
   const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
     new: true,
@@ -69,7 +69,7 @@ const deleteJob = async (req, res) => {
     throw new CustomError.NotFoundError(`No job with id : ${jobId}`)
   }
 
-  checkPermissions(req.user, job.createdBy)
+  checkPermissions(req.user.userId, job.createdBy)
 
   await job.remove()
   res.status(StatusCodes.OK).json({ msg: 'Success! Job removed' })
