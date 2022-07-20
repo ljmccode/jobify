@@ -1,6 +1,7 @@
 import Job from '../models/Job.js';
 import { StatusCodes } from 'http-status-codes';
 import { BadRequestError, NotFoundError } from '../errors/index.js';
+import checkPermissions from '../utils/checkPermissions.js';
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId }).sort('createdAt');
@@ -37,41 +38,41 @@ const createJob = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-  const {
-    user: { userId },
-    params: { id: jobId },
-    body: { company, position },
-  } = req;
+  const { id: jobId } = req.params;
+  const { company, position } = req.body;
 
-  if (company === '' || position === '') {
-    throw new BadRequestError('Company or Position fields cannot be empty');
+  if (!position || !company) {
+    throw new BadRequestError('Please provide all values');
   }
-  const job = await Job.findOneAndUpdate(
-    { _id: jobId, createdBy: userId },
-    req.body,
-    { new: true, runValidators: true }
-  );
+  const job = await Job.findOne({ _id: jobId });
 
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`);
+    throw new NotFoundError(`No job with id :${jobId}`);
   }
-  res.status(StatusCodes.OK).json({ job });
+
+  checkPermissions(req.user.userId, job.createdBy);
+
+  const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(StatusCodes.OK).json({ updatedJob });
 };
 
 const deleteJob = async (req, res) => {
-  const {
-    user: { userId },
-    params: { id: jobId },
-  } = req;
+  const { id: jobId } = req.params
 
-  const job = await Job.findByIdAndRemove({
-    _id: jobId,
-    createdBy: userId,
-  });
+  const job = await Job.findOne({ _id: jobId })
+
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`);
+    throw new CustomError.NotFoundError(`No job with id : ${jobId}`)
   }
-  res.status(StatusCodes.OK).send();
+
+  checkPermissions(req.user.userId, job.createdBy)
+
+  await job.remove()
+  res.status(StatusCodes.OK).json({ msg: 'Success! Job removed' })
 };
 
 export { getAllJobs, getJob, createJob, updateJob, deleteJob };
