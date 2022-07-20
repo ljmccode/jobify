@@ -19,6 +19,10 @@ const Wrapper = styled.section`
   .form-row {
     margin-bottom: 0;
   }
+
+  .form-select {
+    text-transform: capitalize;
+  }
   
   .form-center {
     display: grid;
