@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Job from '../models/Job.js';
 import { StatusCodes } from 'http-status-codes';
 import { BadRequestError, NotFoundError } from '../errors/index.js';
@@ -61,18 +62,41 @@ const updateJob = async (req, res) => {
 };
 
 const deleteJob = async (req, res) => {
-  const { id: jobId } = req.params
+  const { id: jobId } = req.params;
 
-  const job = await Job.findOne({ _id: jobId })
+  const job = await Job.findOne({ _id: jobId });
 
   if (!job) {
-    throw new CustomError.NotFoundError(`No job with id : ${jobId}`)
+    throw new CustomError.NotFoundError(`No job with id : ${jobId}`);
   }
 
-  checkPermissions(req.user.userId, job.createdBy)
+  checkPermissions(req.user.userId, job.createdBy);
 
-  await job.remove()
-  res.status(StatusCodes.OK).json({ msg: 'Success! Job removed' })
+  await job.remove();
+  res.status(StatusCodes.OK).json({ msg: 'Success! Job removed' });
 };
 
-export { getAllJobs, getJob, createJob, updateJob, deleteJob };
+const showStats = async (req, res) => {
+  let stats = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    { $group: { _id: '$status', count: { $sum: 1 } } },
+  ]);
+
+  stats = stats.reduce((acc, curr) => {
+    const { _id, count } = curr;
+    acc[_id] = count;
+    return acc;
+  }, {});
+
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
+  };
+
+  let monthlyApplications = [];
+
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
+};
+
+export { getAllJobs, getJob, createJob, updateJob, deleteJob, showStats };

@@ -10,5 +10,26 @@ import SearchContainer from './SearchContainer';
 import JobsContainer from './JobsContainer';
 import Job from './Job';
 import JobInfo from './JobInfo';
+import StatsItem from './StatsItem';
+import StatsContainer from './StatsContainer';
+import ChartsContainer from './ChartsContainer';
+import Loading from './Loading';
 
-export { Logo, FormRow, Alert, BigSidebar, Navbar, SmallSidebar, NavLinks, FormRowSelect, SearchContainer, JobsContainer, Job, JobInfo };
+export {
+  Logo,
+  FormRow,
+  Alert,
+  BigSidebar,
+  Navbar,
+  SmallSidebar,
+  NavLinks,
+  FormRowSelect,
+  SearchContainer,
+  JobsContainer,
+  Job,
+  JobInfo,
+  StatsItem,
+  StatsContainer,
+  ChartsContainer,
+  Loading,
+};
