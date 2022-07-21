@@ -9,7 +9,6 @@ import { fileURLToPath } from 'url';
 import helmet from 'helmet';
 import xxs from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
-import rateLimiter from 'express-rate-limit';
 
 import express from 'express';
 const app = express();
@@ -27,12 +26,6 @@ import notFoundMiddleware from './middleware/not-found.js';
 import errorHandlerMiddleware from './middleware/error-handler.js';
 
 app.set('trust proxy', 1);
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-  })
-);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, '../client/build')));
