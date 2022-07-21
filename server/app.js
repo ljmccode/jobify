@@ -1,9 +1,12 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
 import 'express-async-errors';
 
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 // extra security packages
-import helmet from'helmet';
+import helmet from 'helmet';
 // import cors from 'cors';
 import xxs from 'xss-clean';
 import rateLimiter from 'express-rate-limit';
@@ -30,18 +33,27 @@ app.use(
     max: 100,
   })
 );
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
 app.use(express.json());
 app.use(helmet());
 // app.use(cors());
 app.use(xxs());
 
-app.get('/', (req, res) => {
-  res.send('<h1>jobs API</h1><a href="/api-docs">Documentation</a>');
-});
+// app.get('/', (req, res) => {
+//   res.send('<h1>jobs API</h1><a href="/api-docs">Documentation</a>');
+// });
 
 // routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
