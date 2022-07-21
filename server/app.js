@@ -28,7 +28,7 @@ import errorHandlerMiddleware from './middleware/error-handler.js';
 app.set('trust proxy', 1);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(helmet());
