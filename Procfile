@@ -1,1 +1,1 @@
-web: node app.js --prefix server
+web: npm run server
