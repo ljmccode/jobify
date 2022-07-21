@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "install": "npm install"
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
