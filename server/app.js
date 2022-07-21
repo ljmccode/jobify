@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 // extra security packages
 import helmet from 'helmet';
 import xxs from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
 import rateLimiter from 'express-rate-limit';
 
 import express from 'express';
@@ -39,6 +40,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(express.json());
 app.use(helmet());
 app.use(xxs());
+app.use(mongoSanitize());
 
 // routes
 app.use('/api/v1/auth', authRouter);
