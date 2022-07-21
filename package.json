@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prod": "npm run build --prefix client --legacy-peer-deps && npm run start --prefix server",
+    "prod": "npm run start --prefix server",
     "build-client": "npm run build --prefix client --legacy-peer-deps",
     "install-server": "npm install --prefix server --legacy-peer-deps",
     "install-client": "npm install --prefix client --legacy-peer-deps",
