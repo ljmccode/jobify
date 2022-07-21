@@ -6,11 +6,10 @@
   "scripts": {
     "prod": "npm run start --prefix server",
     "build-client": "npm run build --prefix client --legacy-peer-deps",
-    "install-server": "npm install --prefix server",
+    "install-server": "npm install --prefix server --legacy-peer-deps",
     "install-client": "npm install --prefix client --legacy-peer-deps",
     "install": "npm run install-server && npm run install-client",
-    "heroku-postbuild": "npm run install && npm run build-client",
-    "start": "concurrently --kill-others-on-fail \" npm run dev --prefix server\" \" npm run start --prefix client\""
+    "dev": "concurrently --kill-others-on-fail \" npm run dev --prefix server\" \" npm run start --prefix client\""
   },
   "repository": {
     "type": "git",
