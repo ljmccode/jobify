@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 // extra security packages
 import helmet from 'helmet';
 import xxs from 'xss-clean';
+import cors from 'cors';
 import mongoSanitize from 'express-mongo-sanitize';
 
 import express from 'express';
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(helmet());
 app.use(xxs());
+app.use(cors());
 app.use(mongoSanitize());
 
 // routes
