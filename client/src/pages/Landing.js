@@ -14,10 +14,16 @@ const Landing = () => {
           <h1>
             job <span>tracking</span> app
           </h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores voluptate blanditiis deserunt nisi quo provident amet recusandae earum, aut optio natus officiis odit eaque architecto accusamus ducimus modi possimus veritatis.</p>
-          <Link to='/register' className='btn btn-hero'>Login/Register</Link>
+          <p>
+            Boost your job search and find the career of you dreams. This job
+            tracker puts you in the driver's seat of the next big step in your
+            life.
+          </p>
+          <Link to='/register' className='btn btn-hero'>
+            Login/Register
+          </Link>
         </div>
-        <img src={main} alt='job hunt' className='img main-img'/>
+        <img src={main} alt='job hunt' className='img main-img' />
       </div>
     </Wrapper>
   );
@@ -45,7 +51,6 @@ const Wrapper = styled.main`
     }
   }
   p {
-    
     color: var(--grey-600);
   }
   .main-img {
@@ -60,6 +65,6 @@ const Wrapper = styled.main`
       display: block;
     }
   }
-`
+`;
 
 export default Landing;
